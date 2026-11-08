@@ -35,6 +35,13 @@
     "notes": "Análise + Orca worktrees, o passo 4 da skill."
   },
   {
+    "id": "advisor-train-github-pr-scheme",
+    "query": "Analisa o projeto e monta o esquema de PRs e commits das recomendações no GitHub, sem me pedir para fazer login.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Passo 5: shipping scheme via GitHub MCP."
+  },
+  {
     "id": "advisor-train-todos-duplication",
     "query": "Olha os TODOs, duplicação e a falta de CI neste codebase e prioriza o que limpar primeiro.",
     "should_trigger": true,
@@ -110,6 +117,13 @@
     "should_trigger": true,
     "split": "validation",
     "notes": "Fallback in-app: a skill deve orientar Add Repo / + / Diff mesmo sem autonomia de CLI."
+  },
+  {
+    "id": "advisor-val-open-prs",
+    "query": "Depois da tabela, abre PRs no GitHub para as três recomendações de maior impacto, um PR por ideia.",
+    "should_trigger": true,
+    "split": "validation",
+    "notes": "Execução do esquema GitHub (create_pull_request), não review de diff alheio."
   },
   {
     "id": "advisor-val-neg-add-page",

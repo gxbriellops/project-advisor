@@ -92,6 +92,24 @@
       ]
     },
     {
+      "id": "github-pr-scheme-no-login",
+      "prompt": "Analisa este repo e monta o esquema de PRs e commits das top recomendações. Depois abre os PRs no GitHub. Não me manda fazer login nem instalar gh.",
+      "expected_output": "Tabela priorizada, depois Esquema GitHub (branch/commit/PR por rec). Usa get_me e create_pull_request do MCP github. Não sugere gh auth login, install do gh, PAT ou token. Não abre PR sem a tabela e sem o esquema.",
+      "files": [],
+      "assertions": [
+        "Produces the prioritized table before any GitHub write",
+        "Loads references/github-integration.md only for this shipping step, not during the initial analysis reads",
+        "Calls GitHub MCP get_me before create_pull_request",
+        "Does not tell the user to log in, run gh auth login, install GitHub CLI, or create a PAT/token",
+        "Does not treat missing gh binary as a blocker or an install suggestion",
+        "Publishes a scheme table mapping each selected recommendation to a branch and PR",
+        "Opens at most one PR per independent recommendation and at most 3 PRs in flight",
+        "Uses create_pull_request (GitHub MCP) rather than instructing the user to open PRs in the browser",
+        "Local commits follow the git commit user rule and only happen if the user asked to commit",
+        "If get_me returns an OAuth URL, shows that single link once and retries — no login tutorial"
+      ]
+    },
+    {
       "id": "no-orca-without-consent",
       "prompt": "Só analisa o repo Next.js e me diz o que farias nas próximas duas semanas. Não implementa nada.",
       "expected_output": "Tabela priorizada e um próximo passo. Não cria worktrees, não lança agentes Orca, não edita código.",
@@ -100,6 +118,8 @@
         "Does not run orca worktree create",
         "Does not launch Orca agents",
         "Does not edit application source files",
+        "Does not create GitHub PRs, issues, or remote branches",
+        "Does not tell the user to log in to GitHub or install gh",
         "Offers Orca prototyping only as an optional next step, if at all",
         "Output remains analysis: summary recorte + findings + impact/effort table"
       ]

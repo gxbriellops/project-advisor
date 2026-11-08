@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 — 2026-11-08
+
+- Passo 5: esquema de ship no GitHub (branches, commits, PRs, issues) via MCP `github`.
+- Não sugere login, `gh auth login`, install do GitHub CLI nem token; `get_me` e, se preciso, um único link OAuth.
+- Review de PR alheio e “mensagem de commit do staging” continuam fora desta skill.
+
 ## 1.1.0 — 2026-11-08
 
 - Alinha o passo Orca ao fluxo oficial *add → worktree → agent → split → diff → ship*.
