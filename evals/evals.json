@@ -1,0 +1,108 @@
+{
+  "skill_name": "project-advisor",
+  "evals": [
+    {
+      "id": "summary-before-reads-nextjs",
+      "prompt": "Analisa este app Next.js (App Router) e me diz o que refatorar primeiro e quais features faltam. Não quero um tour pelo repo, quero uma tabela priorizada.",
+      "expected_output": "O agente corre scripts/project_summary.py no root do workspace, obedece do_not_read_all, lê só key_files e poucos hotspots, e devolve uma tabela impacto/esforço com evidência de caminhos reais.",
+      "files": [],
+      "assertions": [
+        "Runs scripts/project_summary.py (or python3 on that path) before reading application source",
+        "Does not glob or open node_modules, .next, dist, or the whole app/ tree",
+        "States the detected project type as nextjs (or mixed with nextjs listed)",
+        "Output includes a markdown table with columns for recommendation, impact, and effort",
+        "Each table row cites a real file path or a structural signal from the summary JSON",
+        "Recommendations distinguish feature vs refactor vs perf/tests/docs",
+        "Does not paste entire source files into the reply"
+      ]
+    },
+    {
+      "id": "flutter-architecture-and-state",
+      "prompt": "Esse app Flutter misturou setState com Riverpod, o home.dart passou de 800 linhas e as strings estão hardcoded. O que você recomenda, priorizado?",
+      "expected_output": "Leitura seletiva de pubspec.yaml e do hotspot citado; recomendações de convergência de estado, extração do widget deus e i18n só se fizer sentido ao produto, com esforço S/M/L.",
+      "files": [],
+      "assertions": [
+        "Runs the project summary script before opening lib/**/*.dart en masse",
+        "Reads pubspec.yaml (or cites it from key_files) to confirm state-management deps",
+        "Recommends converging on a single state approach rather than adding a fourth package",
+        "Includes a refactor to split the large home/widget file, effort S or M",
+        "Treats hardcoded strings as i18n or copy-centralization depending on product need, not an automatic full l10n rewrite",
+        "Table is ordered with high-impact low-effort items first"
+      ]
+    },
+    {
+      "id": "python-package-health",
+      "prompt": "Dá um olhar de maintainer neste pacote Python: empacotamento, types, testes e config. Quero um roadmap curto do que faria neste trimestre.",
+      "expected_output": "Resumo estrutural, depois pyproject/requirements e pasta de testes; tabela com type hints, src layout, pytest e config centralizada, sem pedir rewrite de framework.",
+      "files": [],
+      "assertions": [
+        "Detects python via the summary script signals (pyproject.toml, requirements.txt, or .py counts)",
+        "Comments on tests presence using the summary tests/ci fields or a targeted tests/ read",
+        "Recommends type checking only if public domain modules lack hints, not 100% coverage of one-off scripts",
+        "Flags scattered os.environ as a config item when that pattern is in evidence",
+        "Does not recommend migrating to a different web framework unprompted",
+        "Roadmap is the prioritized table plus a single next step, not a 20-item nit list"
+      ]
+    },
+    {
+      "id": "token-budget-large-repo",
+      "prompt": "O monorepo é enorme. Analisa o projeto inteiro e me lista tudo que está ruim — pode ler à vontade.",
+      "expected_output": "Ignora o convite para ler tudo. Roda o script, lê no máximo ~12 arquivos sugeridos, e devolve 5–9 recomendações com um recorte explícito do que foi ignorado.",
+      "files": [],
+      "assertions": [
+        "Still runs project_summary.py first",
+        "Explicitly refuses to read the whole codebase despite the user saying it is allowed",
+        "Mentions skip dirs such as node_modules, .next, build, dist, __pycache__, or .dart_tool when present in the summary",
+        "Keeps the recommendation table at or under 9 rows",
+        "Includes a short 'não fazer agora' or out-of-scope note instead of listing every TODO"
+      ]
+    },
+    {
+      "id": "orca-parallel-prototypes",
+      "prompt": "Feita a análise, prototipa as duas recomendações de maior impacto em worktrees isolados no Orca, em paralelo, e vai atualizando o comentário de status.",
+      "expected_output": "Depois da tabela, carrega orca-cli (e orchestration se precisar de retorno), resolve orca-ide/ORCA_CLI_COMMAND no Linux, cria um worktree por ideia com --comment, e usa worktree set --comment para status. Não usa git worktree cru nem o binário orca do GNOME.",
+      "files": [],
+      "assertions": [
+        "Produces or already has the prioritized table before creating worktrees",
+        "Creates at most one Orca worktree per selected recommendation (two worktrees here)",
+        "Uses orca worktree create with --name, --comment, and --json (via orca-ide or ORCA_CLI_COMMAND on Linux desktop)",
+        "Does not invoke bare orca on Linux desktop because it may be the GNOME screen reader",
+        "Does not call git worktree add as the isolation mechanism",
+        "Includes orca worktree set --comment (and optionally --workspace-status) for in-progress or done updates",
+        "Prompts to each agent are scoped to a single recommendation and say not to refactor unrelated areas",
+        "Mentions loading the official orca-cli skill, and orchestration if results must come back",
+        "If status/create is blocked, does not fake success and instead lists Orca app clicks (Add Repo, +, Diff, Annotate AI Diff, Commit)",
+        "Still tells the user to review diffs and ship in the app even when CLI create succeeds"
+      ]
+    },
+    {
+      "id": "orca-app-fallback-when-cli-blocked",
+      "prompt": "Quero prototipar as duas melhores ideias no Orca, mas o agente daqui não consegue criar worktree sozinho (Orca pode estar fechado ou o repo ainda não está na sidebar). Me diz exatamente o que clicar no aplicativo.",
+      "expected_output": "Não dirige a GUI com Computer Use. Entrega um bloco Ações no app Orca: abrir Orca, Add Repo, +, nome, branch from, agente, prompts prontos para P1/P2, split, Needs You, Diff + Annotate AI Diff + Send to agent, Commit/Push, apagar perdedores.",
+      "files": [],
+      "assertions": [
+        "Does not claim worktrees were already created unless a successful CLI receipt exists",
+        "Does not use Computer Use / orca computer against the Orca window as the primary path",
+        "Instructs Add Repo on the sidebar when the project may be unregistered",
+        "Instructs clicking + next to the repo and picking an agent in the workspace launcher",
+        "Provides one paste-ready prompt per recommendation (max two here), scoped to a single idea",
+        "Mentions split panes or Agent Dashboard to watch parallel agents",
+        "Mentions Needs You / permission cards as something the user must click",
+        "Closes with Diff → Annotate AI Diff → Send to agent, then Source Control Commit/Push, no silent force-push"
+      ]
+    },
+    {
+      "id": "no-orca-without-consent",
+      "prompt": "Só analisa o repo Next.js e me diz o que farias nas próximas duas semanas. Não implementa nada.",
+      "expected_output": "Tabela priorizada e um próximo passo. Não cria worktrees, não lança agentes Orca, não edita código.",
+      "files": [],
+      "assertions": [
+        "Does not run orca worktree create",
+        "Does not launch Orca agents",
+        "Does not edit application source files",
+        "Offers Orca prototyping only as an optional next step, if at all",
+        "Output remains analysis: summary recorte + findings + impact/effort table"
+      ]
+    }
+  ]
+}

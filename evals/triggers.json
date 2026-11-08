@@ -1,0 +1,142 @@
+[
+  {
+    "id": "advisor-train-analyze-next",
+    "query": "Analisa este projeto Next.js e me recomenda o que construir e o que refatorar, priorizado por impacto e esforço.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Pedido explícito de análise + roadmap em App Router/Pages territory."
+  },
+  {
+    "id": "advisor-train-flutter-roadmap",
+    "query": "Esse app Flutter ficou bagunçado. Quero um roadmap de features e refactors, não um PR ainda.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Arquitetura/produto, não um bug pontual."
+  },
+  {
+    "id": "advisor-train-python-health",
+    "query": "Dá um health check neste pacote Python: estrutura, types, testes, docs e o que eu deveria fazer a seguir.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Maintainer review alinhado à skill, não 'escreve os testes agora'."
+  },
+  {
+    "id": "advisor-train-project-advisor-name",
+    "query": "Usa a skill project-advisor neste repo e gera a tabela de recomendações.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Invocação pelo nome da skill."
+  },
+  {
+    "id": "advisor-train-orca-prototypes",
+    "query": "Depois de analisar, abre worktrees isolados no Orca para prototipar as duas melhores ideias em paralelo.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Análise + Orca worktrees, o passo 4 da skill."
+  },
+  {
+    "id": "advisor-train-todos-duplication",
+    "query": "Olha os TODOs, duplicação e a falta de CI neste codebase e prioriza o que limpar primeiro.",
+    "should_trigger": true,
+    "split": "train",
+    "notes": "Sinais gerais da skill (markers, docs, CI), não um grep avulso."
+  },
+  {
+    "id": "advisor-train-neg-implement-auth",
+    "query": "Implementa login com NextAuth neste app, incluindo a página de callback e o middleware.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Pedido de implementação de feature, não de análise/roadmap."
+  },
+  {
+    "id": "advisor-train-neg-flutter-overflow",
+    "query": "Corrige o RenderFlex overflow na tela de checkout do Flutter, o botão está cortando no iPhone SE.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Bugfix pontual de layout, não advisor de projeto."
+  },
+  {
+    "id": "advisor-train-neg-write-pytest",
+    "query": "Escreve pytest para a função calculate_invoice em billing.py e roda até passar.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Implementar testes numa função, não health check do pacote."
+  },
+  {
+    "id": "advisor-train-neg-pr-review",
+    "query": "Revisa este PR: olha o diff de auth e aponta bugs e riscos de segurança antes do merge.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Code review de diff; skill de review, não project-advisor."
+  },
+  {
+    "id": "advisor-train-neg-commit-msg",
+    "query": "Gera a mensagem de commit para o que está no staging.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Git commit helper; compartilham 'projeto' zero."
+  },
+  {
+    "id": "advisor-train-neg-animations",
+    "query": "Adiciona animações de scroll e reveal nesta landing Next.js sem prejudicar LCP.",
+    "should_trigger": false,
+    "split": "train",
+    "notes": "Near-miss Next.js: motion/frontend-animations, não roadmap de produto."
+  },
+  {
+    "id": "advisor-val-what-next",
+    "query": "O que eu deveria construir a seguir neste produto? Olha o código e a documentação e prioriza.",
+    "should_trigger": true,
+    "split": "validation",
+    "notes": "Intenção de roadmap sem nomear a skill; precisa casar com a description."
+  },
+  {
+    "id": "advisor-val-architecture-health",
+    "query": "Faz uma análise de saúde da arquitetura deste repo (Flutter/Next/Python, o que for) e lista refatorações com impacto vs esforço.",
+    "should_trigger": true,
+    "split": "validation",
+    "notes": "Frase canônica da description: architecture health + impact/effort."
+  },
+  {
+    "id": "advisor-val-prototype-orca",
+    "query": "Quero prototipar as melhores ideias deste projeto em Git worktrees isolados no Orca, de forma segura.",
+    "should_trigger": true,
+    "split": "validation",
+    "notes": "Orca + worktrees + ideias de projeto; passo opcional da skill."
+  },
+  {
+    "id": "advisor-val-orca-app-clicks",
+    "query": "Não cria os worktrees por CLI. Só me lista o que clicar no app Orca para abrir dois agentes em paralelo nessas refatorações.",
+    "should_trigger": true,
+    "split": "validation",
+    "notes": "Fallback in-app: a skill deve orientar Add Repo / + / Diff mesmo sem autonomia de CLI."
+  },
+  {
+    "id": "advisor-val-neg-add-page",
+    "query": "Cria uma rota /pricing no App Router com tabela de planos e CTA, copiando o estilo da home.",
+    "should_trigger": false,
+    "split": "validation",
+    "notes": "Implementar uma página; Next.js keyword sem análise de projeto."
+  },
+  {
+    "id": "advisor-val-neg-search-code",
+    "query": "Busca no código onde a gente já implementa retry/backoff e me lista os arquivos.",
+    "should_trigger": false,
+    "split": "validation",
+    "notes": "Code search pontual, não advisor. Near-miss do verbo 'analisa/lista'."
+  },
+  {
+    "id": "advisor-val-neg-rename-widget",
+    "query": "Renomeia o widget PrimaryButton para AppButton e atualiza os imports no projeto Flutter.",
+    "should_trigger": false,
+    "split": "validation",
+    "notes": "Refactor mecânico pedido, não recomendações priorizadas."
+  },
+  {
+    "id": "advisor-val-neg-orca-browser",
+    "query": "Abre o browser embutido do Orca e clica no botão de login da staging.",
+    "should_trigger": false,
+    "split": "validation",
+    "notes": "Orca keyword mas GUI/browser da skill orca-cli, não project-advisor."
+  }
+]
